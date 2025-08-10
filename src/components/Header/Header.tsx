@@ -2,18 +2,20 @@ import * as React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
+import { observer } from 'mobx-react';
+import appStore from '../../store/store';
 
 const pages = ['Главная', 'Новости'];
 
 
-export default function Header() {
+function Header() {
     const navigate = useNavigate();
-    const [activePage, setActivePage] = React.useState('Главная');
 
-    const handleClick = (page: string, index: number) => () => {
-        setActivePage(page);
-        navigate(index==0? "/":"/news");
+    const handleClick = (index: number) => () => {
+        appStore.goToPage(index);
+        navigate(index == 0 ? "/" : "/news");
     };
+
 
     return (
         <AppBar position="static">
@@ -30,20 +32,30 @@ export default function Header() {
                     </Typography>
 
                     <Box sx={{ display: "flex" }}>
-                        {pages.map((page, index) => (
-                            <Button
-                                key={page}
-                                onClick={handleClick(page, index)}
-                                disabled={activePage === page ? true : false}
-                                sx={{ mx: 1 }}
-                                color="inherit"
-                            >
-                                {page}
-                            </Button>
-                        ))}
+                        
+                        <Button
+                            onClick={handleClick(0)}
+                            disabled={appStore.pageId === 0 ? true : false}
+                            sx={{ mx: 1 }}
+                            color="inherit"
+                        >
+                            {pages[0]}
+                        </Button>
+                        <Button
+                            onClick={handleClick(1)}
+                            disabled={appStore.pageId === 1 ? true : false}
+                            sx={{ mx: 1 }}
+                            color="inherit"
+                        >
+                            {pages[1]}
+                        </Button>
+                        
                     </Box>
                 </Box>
             </Toolbar>
         </AppBar>
     );
 }
+
+
+export default observer(Header);

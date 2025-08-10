@@ -6,16 +6,17 @@ import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 
 import { Box } from '@mui/material';
 
+import { observer } from 'mobx-react';
+import userStore from './store/store';
+
 import Header from './components/Header/Header';
-import NewsCard from './components/NewsCard/NewsCard';
 import Center from './components/Center/Center';
 import MainPage from './pages/MainPage/MainPage';
 import NewsPage from './pages/NewsPage/NewsPage';
 
 
 
-function App() {
-  
+const App = (() => {
   return (
     <Box>
       <BrowserRouter>
@@ -29,6 +30,6 @@ function App() {
       </BrowserRouter>
     </Box>
   );
-}
+});
 
 export default App;

@@ -1,6 +1,11 @@
 import * as React from 'react';
-import { Card, CardActionArea, CardContent, CardMedia, Typography, Grid, Avatar } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Typography, Grid, Avatar, Box, ListItem } from '@mui/material';
 import Rating from '@mui/material/Rating';
+import { useNavigate } from 'react-router-dom';
+
+import { observer } from 'mobx-react';
+import appStore from '../../store/store';
+
 
 // Интерфейс новостей
 interface NewsItemProps {
@@ -8,45 +13,63 @@ interface NewsItemProps {
     rating: number;
     author: string;
     publishedAt: string;
-    imageUrl?: string;
+    goToPage: boolean;
 }
 
 // Компонент карточки новости
-export default function NewsCard({
+function NewsCard({
     title,
     rating,
     author,
     publishedAt,
-    imageUrl
+    goToPage
 }: NewsItemProps) {
+    const navigate = useNavigate();
+
     return (
-        <Card elevation={3}>
-            <CardActionArea>
-                {imageUrl && (
-                    <CardMedia
-                        component="img"
-                        height="180"
-                        src={imageUrl}
-                        alt={`${title}`}
-                    />
-                )}
-                <CardContent>
-                    <Grid container spacing={2}>
-                        <Grid size={12}>
-                            <Typography gutterBottom variant="h5" component="h2">{title}</Typography>
+        <ListItem>
+            <Card sx={{
+                width: "50vw"
+            }}>
+                <CardActionArea
+                    disabled={goToPage?false:true}
+                    onClick={()=>{
+                        appStore.goToPage(1);
+                        navigate("/news");
+                    }}
+                >
+                    <CardContent>
+                        <Grid container spacing={2}>
+                            {/* Верхняя секция: Заголовок и дата публикации */}
+                            <Grid size={12}>
+                                <Typography variant="h5" component="h2" gutterBottom>
+                                    {title}
+                                </Typography>
+                                <Typography variant="caption" color="text.secondary">
+                                    {publishedAt}
+                                </Typography>
+                            </Grid>
+
+                            {/* Средняя секция: Автор и рейтинг */}
+                            <Grid size={12}>
+                                <Box display="flex" alignItems="center">
+                                    <Avatar>{author.charAt(0).toUpperCase()}</Avatar>
+
+                                    <Typography marginLeft="10px" variant="subtitle1" color="text.primary">
+                                        {author}
+                                    </Typography>
+
+                                    <Box ml="auto">
+                                        <Rating value={rating} readOnly/>
+                                    </Box>
+                                </Box>
+                            </Grid>
                         </Grid>
-                        <Grid size={6}>
-                            <Avatar>{author.slice(0, 1)}</Avatar> <b>{author}</b>
-                        </Grid>
-                        <Grid size={6}>
-                            <Typography color="textSecondary">{publishedAt}</Typography>
-                        </Grid>
-                        <Grid size={6}>
-                            <Rating value={rating} readOnly precision={0.5} />
-                        </Grid>
-                    </Grid>
-                </CardContent>
-            </CardActionArea>
-        </Card>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
+        </ListItem>
     );
 }
+
+export default observer(NewsCard);
