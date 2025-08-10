@@ -1,19 +1,18 @@
 import * as React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 
 const pages = ['Главная', 'Новости'];
 
-interface HeaderProps {
-  onPageSelected: (pageIndex: number) => void;
-}
 
-export default function Header({ onPageSelected }: HeaderProps) {
+export default function Header() {
+    const navigate = useNavigate();
     const [activePage, setActivePage] = React.useState('Главная');
 
     const handleClick = (page: string, index: number) => () => {
         setActivePage(page);
-        onPageSelected(index);
+        navigate(index==0? "/":"/news");
     };
 
     return (
