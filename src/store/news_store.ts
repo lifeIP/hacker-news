@@ -19,10 +19,21 @@ class NewsStore {
 
   listOfNews: number[] = [];
   listOfNewsWithInfo: NewsItem[] = [];
-  lastUpdate = 0;
+  timer: any = undefined;
 
   constructor() {
     makeAutoObservable(this); // Преобразуем объект в Observable
+  }
+
+  startTimer(timerFunc: ()=>void){
+    if(this.timer === undefined){
+      this.timer = setInterval(timerFunc, 60000);
+    }
+  }
+  stopTimer(){
+    if(this.timer !== undefined){
+      clearInterval(this.timer);
+    }
   }
 
   setListOfNews(listOfNews: []) {

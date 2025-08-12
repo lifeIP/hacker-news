@@ -91,7 +91,7 @@ function NewsCard({
                     onClick={() => {
                         appStore.goToPage(1);
                         newsStore.setCurrentId(newsId);
-                        console.log(news_store.currentId);
+                        // console.log(news_store.currentId);
                         navigate("/news");
                     }}
                 >

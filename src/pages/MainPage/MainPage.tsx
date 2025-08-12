@@ -9,7 +9,6 @@ import { observer } from 'mobx-react';
 function MainPage() {
     
     async function getListOfUpdates() {
-        console.log(`${settings.server.addr}${settings.server.updates}${settings.server.addr_end}`);
         try {
             const res = await axios.get(`${settings.server.addr}${settings.server.updates}${settings.server.addr_end}`);
 
@@ -29,7 +28,6 @@ function MainPage() {
         newsStore.clearNews();
         getListOfUpdates();
     }
-    let timer: any = undefined;
 
     React.useEffect(() => {
         if(newsStore.listOfNews.length === 0 ){
@@ -38,7 +36,7 @@ function MainPage() {
     }, []);
 
     React.useEffect(() => {
-        timer = setInterval(timerFunc, 60000);
+        newsStore.startTimer(timerFunc);
     }, []);
 
     return (<>
