@@ -11,9 +11,9 @@ const pages = ['Главная', 'Новости'];
 function Header() {
     const navigate = useNavigate();
 
-    const handleClick = (index: number) => () => {
-        appStore.goToPage(index);
-        navigate(index == 0 ? "/" : "/news");
+    const handleHomeClick = () => {
+        appStore.goToPage(0);
+        navigate("/");
     };
 
 
@@ -27,29 +27,23 @@ function Header() {
                     width: "50vw",
                     display: "inline-flex"
                 }}>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Hacker News
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{ flexGrow: 1 }}
+                    >
+                        <span onClick={handleHomeClick}>Hacker News</span>
                     </Typography>
 
+                    
                     <Box sx={{ display: "flex" }}>
-                        
                         <Button
-                            onClick={handleClick(0)}
-                            disabled={appStore.pageId === 0 ? true : false}
+                            onClick={handleHomeClick}
                             sx={{ mx: 1 }}
                             color="inherit"
                         >
                             {pages[0]}
                         </Button>
-                        <Button
-                            onClick={handleClick(1)}
-                            disabled={appStore.pageId === 1 ? true : false}
-                            sx={{ mx: 1 }}
-                            color="inherit"
-                        >
-                            {pages[1]}
-                        </Button>
-                        
                     </Box>
                 </Box>
             </Toolbar>

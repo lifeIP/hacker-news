@@ -25,10 +25,10 @@ function MainPage() {
             throw err;
         }
     }
-    function timerFunc() {
+    async function timerFunc() {
         console.log("Таймер сработал!");
         newsStore.clearNews();
-        getListOfUpdates();
+        await getListOfUpdates();
     }
 
     React.useEffect(() => {
