@@ -21,18 +21,11 @@ function NewsCard({
     newsId,
     goToPage
 }: NewsItemProps) {
-    const [data, setData] = React.useState<{
-        by: string;
-        descendants: number;
-        id: number;
-        kids: number[];
-        score: number;
-        time: number;
-        title: string;
-        type: string;
-        url: string;
-    } | undefined>(undefined);
     const navigate = useNavigate();
+    const [title, setTitle] = React.useState("");
+    const [time, setTime] = React.useState(0);
+    const [by, setBy] = React.useState("");
+    const [score, setScore] = React.useState(0);
 
     function timeAgo(timestamp: number | undefined) {
         if (timestamp) {
@@ -54,6 +47,10 @@ function NewsCard({
             const res = await axios.get(`${settings.server.addr}${settings.server.item}${id}${settings.server.addr_end}`);
 
             if (res.status === 200 || res.status === 201) {
+                setTitle(res.data.title);
+                setBy(res.data.by);
+                setScore(res.data.score);
+                setTime(res.data.time);
                 newsStore.addNewNews(res.data);
             } else {
             }
@@ -64,12 +61,22 @@ function NewsCard({
     }
 
     React.useEffect(() => {
-        if (newsStore.getItemById(newsId)) {
-            setData(newsStore.getItemById(newsId));
+        const item = newsStore.getItemById(newsId);
+        if (item) {
+            setTitle(item.title);
+            setBy(item.by);
+            setScore(item.score);
+            setTime(item.time);
         }
         else {
             getInfo(newsId);
-            setData(newsStore.getItemById(newsId));
+            const item = newsStore.getItemById(newsId);
+            if (item) {
+                setTitle(item.title);
+                setBy(item.by);
+                setScore(item.score);
+                setTime(item.time);
+            }
         }
     }, []);
 
@@ -93,24 +100,24 @@ function NewsCard({
                             {/* Верхняя секция: Заголовок и дата публикации */}
                             <Grid size={12}>
                                 <Typography variant="h5" component="h2" gutterBottom>
-                                    {data?.title}
+                                    {title}
                                 </Typography>
                                 <Typography variant="caption" color="text.secondary">
-                                    {timeAgo(data?.time)}
+                                    {timeAgo(time)}
                                 </Typography>
                             </Grid>
 
                             {/* Средняя секция: Автор и рейтинг */}
                             <Grid size={12}>
                                 <Box display="flex" alignItems="center">
-                                    <Avatar>{data?.by.charAt(0).toUpperCase()}</Avatar>
+                                    <Avatar>{by.charAt(0).toUpperCase()}</Avatar>
 
                                     <Typography marginLeft="10px" variant="subtitle1" color="text.primary">
-                                        {data?.by}
+                                        {by}
                                     </Typography>
 
                                     <Box ml="auto">
-                                        <Typography>{data?.score}</Typography>
+                                        <Typography>{score}</Typography>
                                     </Box>
                                 </Box>
                             </Grid>
