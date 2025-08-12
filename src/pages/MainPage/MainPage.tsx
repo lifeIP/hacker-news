@@ -1,4 +1,4 @@
-import { List } from '@mui/material';
+import { Fab, List } from '@mui/material';
 import * as React from 'react';
 import NewsCard from '../../components/NewsCard/NewsCard';
 import settings from "../../settings.json"
@@ -6,8 +6,10 @@ import axios from 'axios';
 import newsStore from '../../store/news_store';
 import { observer } from 'mobx-react';
 
+import UpdateIcon from '@mui/icons-material/Update';
+
 function MainPage() {
-    
+
     async function getListOfUpdates() {
         try {
             const res = await axios.get(`${settings.server.addr}${settings.server.updates}${settings.server.addr_end}`);
@@ -30,7 +32,7 @@ function MainPage() {
     }
 
     React.useEffect(() => {
-        if(newsStore.listOfNews.length === 0 ){
+        if (newsStore.listOfNews.length === 0) {
             getListOfUpdates();
         }
     }, []);
@@ -42,7 +44,7 @@ function MainPage() {
     return (<>
         <List disablePadding>
             {
-               newsStore.listOfNews.map((item) => {
+                newsStore.listOfNews.map((item) => {
                     return (
                         <NewsCard
                             key={item}
@@ -53,6 +55,19 @@ function MainPage() {
                 })
             }
         </List>
+        <Fab
+            onClick={()=>{
+                newsStore.stopTimer();
+                newsStore.startTimer(timerFunc);
+                newsStore.clearNews();
+                getListOfUpdates();
+            }}
+            color="primary"
+            sx={{
+                position: "fixed",
+                right: "15px",
+                bottom: "15px"
+            }}><UpdateIcon /></Fab>
     </>);
 }
 

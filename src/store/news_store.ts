@@ -33,6 +33,7 @@ class NewsStore {
   stopTimer(){
     if(this.timer !== undefined){
       clearInterval(this.timer);
+      this.timer = undefined;
     }
   }
 
