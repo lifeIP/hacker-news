@@ -7,7 +7,7 @@ import newsStore from '../../store/news_store';
 import { observer } from 'mobx-react';
 
 function MainPage() {
-
+    
     async function getListOfUpdates() {
         console.log(`${settings.server.addr}${settings.server.updates}${settings.server.addr_end}`);
         try {
@@ -24,11 +24,21 @@ function MainPage() {
             throw err;
         }
     }
+    function timerFunc() {
+        console.log("Таймер сработал!");
+        newsStore.clearNews();
+        getListOfUpdates();
+    }
+    let timer: any = undefined;
 
     React.useEffect(() => {
-        if(newsStore.lastUpdate > 60 || newsStore.listOfNews.length === 0 ){
+        if(newsStore.listOfNews.length === 0 ){
             getListOfUpdates();
         }
+    }, []);
+
+    React.useEffect(() => {
+        timer = setInterval(timerFunc, 60000);
     }, []);
 
     return (<>

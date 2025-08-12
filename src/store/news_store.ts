@@ -28,19 +28,19 @@ class NewsStore {
   setListOfNews(listOfNews: []) {
     this.listOfNews = listOfNews;
   }
-  clearNews(){
+  clearNews() {
     this.listOfNews = []
     this.listOfNewsWithInfo = []
   }
 
-  setCurrentId(currentId: number){
+  setCurrentId(currentId: number) {
     this.currentId = currentId;
   }
 
   addNewNews({
     by, descendants, id, kids, score, time, title, type, url
   }: NewsItem) {
-    this.listOfNewsWithInfo.push({by, descendants, id, kids, score, time, title, type, url});
+    this.listOfNewsWithInfo.push({ by, descendants, id, kids, score, time, title, type, url });
   }
 
   getItemById(targetId: number) {
