@@ -1,22 +1,30 @@
 import * as React from 'react';
 import NewsCard from '../../components/NewsCard/NewsCard';
-import { List } from '@mui/material';
+import { Button, List, ListItem, ListItemButton, Typography } from '@mui/material';
 
 import { observer } from 'mobx-react';
-import appStore from '../../store/store';
+import appStore from '../../store/app_store';
+import news_store from '../../store/news_store';
 
 
 function NewsPage() {
-
+    
     return (<>
         <List disablePadding>
             <NewsCard
-                title='Название Очень Очень Очень длииииииииииииноооооооооооое'
-                rating={4.15}
-                author='Artem'
-                publishedAt='Today'
+                newsId={news_store.currentId}
                 goToPage={false}
             />
+            <ListItem>
+                <Button variant="contained" fullWidth>
+                    Перейти к источнику
+                </Button>
+            </ListItem>
+            <ListItem>
+                <Typography>
+                    Комментарии:
+                </Typography>
+            </ListItem>
         </List>
     </>);
 }

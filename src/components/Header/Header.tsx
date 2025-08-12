@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import { observer } from 'mobx-react';
-import appStore from '../../store/store';
+import appStore from '../../store/app_store';
 
 const pages = ['Главная', 'Новости'];
 

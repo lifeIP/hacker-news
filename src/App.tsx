@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import { observer } from 'mobx-react';
-import userStore from './store/store';
+import userStore from './store/app_store';
 
 import Header from './components/Header/Header';
 import Center from './components/Center/Center';

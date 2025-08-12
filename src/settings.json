@@ -1,0 +1,8 @@
+{
+    "server":{
+        "addr": "https://hacker-news.firebaseio.com/v0/",
+        "item": "item/",
+        "updates": "newstories",
+        "addr_end": ".json"
+    }   
+}

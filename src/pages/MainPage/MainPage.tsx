@@ -1,26 +1,51 @@
 import { List } from '@mui/material';
 import * as React from 'react';
 import NewsCard from '../../components/NewsCard/NewsCard';
+import settings from "../../settings.json"
+import axios from 'axios';
+import newsStore from '../../store/news_store';
+import { observer } from 'mobx-react';
 
+function MainPage() {
 
-export default function MainPage(){
+    async function getListOfUpdates() {
+        console.log(`${settings.server.addr}${settings.server.updates}${settings.server.addr_end}`);
+        try {
+            const res = await axios.get(`${settings.server.addr}${settings.server.updates}${settings.server.addr_end}`);
 
-    return(<>
+            if (res.status === 200 || res.status === 201) {
+                newsStore.clearNews();
+                newsStore.setListOfNews(res.data.slice(0, 100));
+            } else {
+
+            }
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
+    React.useEffect(() => {
+        if(newsStore.lastUpdate > 60 || newsStore.listOfNews.length === 0 ){
+            getListOfUpdates();
+        }
+    }, []);
+
+    return (<>
         <List disablePadding>
-            <NewsCard
-                title='Название Очень Очень Очень длииииииииииииноооооооооооое'
-                rating={4.15}
-                author='Artem'
-                publishedAt='Today'
-                goToPage
-            />
-            <NewsCard
-                title='Название'
-                rating={3.1}
-                author='Artem'
-                publishedAt='Today'
-                goToPage
-            />
+            {
+               newsStore.listOfNews.map((item) => {
+                    return (
+                        <NewsCard
+                            key={item}
+                            newsId={item}
+                            goToPage
+                        />
+                    )
+                })
+            }
         </List>
     </>);
 }
+
+export default observer(MainPage);
