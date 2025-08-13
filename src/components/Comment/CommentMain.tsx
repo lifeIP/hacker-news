@@ -5,7 +5,9 @@ import axios from 'axios';
 
 import settings from "../../settings.json";
 import { Avatar, Box, Button, Card, CardContent, colors, Grid, IconButton, Typography } from '@mui/material';
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 
 function CommentMain({ id, parent_name }: { id: number, parent_name: string | undefined }) {
@@ -28,6 +30,8 @@ function CommentMain({ id, parent_name }: { id: number, parent_name: string | un
     });
 
     const [commentDeleted, setCommentDeleted] = React.useState(false);
+    const [unwrap, setUnwrap] = React.useState(false);
+
     React.useEffect(() => {
 
         axios.get(`${settings.server.addr}${settings.server.item}${id}${settings.server.addr_end}`)
@@ -54,7 +58,7 @@ function CommentMain({ id, parent_name }: { id: number, parent_name: string | un
         <>{commentDeleted ? <></> : (
             <Box
                 marginLeft={parent_name !== undefined ? "15px" : 'none'}
-                borderLeft={commentData?.kids?.length !== 0 ? "2px solid lightgray": '0px'}
+                borderLeft={commentData?.kids?.length !== 0 ? "2px solid lightgray" : '0px'}
                 marginBottom="15px"
             >
                 <Card sx={{
@@ -92,16 +96,25 @@ function CommentMain({ id, parent_name }: { id: number, parent_name: string | un
                         }}>
                             <Typography>{commentData?.kids?.length}</Typography>
                             {commentData?.kids?.length > 0 ? (
-                                <IconButton>
-                                    <ExpandMoreIcon />
+                                <IconButton
+                                    onClick={() => {
+                                        setUnwrap(!unwrap);
+                                    }}>
+                                        {unwrap?(<ExpandLessIcon/>):(<ExpandMoreIcon />)}
+                                    
                                 </IconButton>
                             ) : <></>}
                         </Box>
                     </CardContent>
                 </Card>
-                {commentData?.kids?.map((item) => (
-                    <CommentMain id={item} parent_name={commentData.by} />
-                ))}
+                {unwrap ? (
+                    <>
+                        {commentData?.kids?.map((item) => (
+                            <CommentMain id={item} parent_name={commentData.by} />
+                        ))}
+                    </>
+                ) : (<></>)}
+
             </Box>
         )}
         </>

@@ -3,6 +3,9 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography, Grid, Avatar,
 import Rating from '@mui/material/Rating';
 import { useNavigate } from 'react-router-dom';
 
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+
 import { observer } from 'mobx-react';
 import newsStore from '../../store/news_store';
 import axios from 'axios';
@@ -113,8 +116,9 @@ function NewsCard({
                                         {by}
                                     </Typography>
 
-                                    <Box ml="auto">
+                                    <Box ml="auto" display="flex">
                                         <Typography>{score}</Typography>
+                                        <FavoriteBorderIcon sx={{marginLeft: "5px"}}/>
                                     </Box>
                                 </Box>
                             </Grid>

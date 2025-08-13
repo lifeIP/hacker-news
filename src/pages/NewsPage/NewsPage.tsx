@@ -11,13 +11,15 @@ import settings from "../../settings.json"
 
 function NewsPage() {
     const [news, setNews] = React.useState<number[]>([]);
+    const [newsLink, setNewsLink] = React.useState<string>("");
 
     async function getInfo(id: number) {
 
         try {
             const res = await axios.get(`${settings.server.addr}${settings.server.item}${id}${settings.server.addr_end}`);
             if (res.status === 200 || res.status === 201) {
-                console.log(res.data);
+                // console.log(res.data);
+                setNewsLink(res.data.url);
                 setNews(res.data.kids);
             } else {
             }
@@ -39,7 +41,14 @@ function NewsPage() {
                 goToPage={false}
             />
             <ListItem>
-                <Button variant="contained" fullWidth>
+                <Button 
+                    component="a"
+                    href={newsLink}
+                    target="_blank"
+                    // rel="noreferrer noopener"
+
+                    variant="contained" 
+                    fullWidth>
                     Перейти к источнику
                 </Button>
             </ListItem>
