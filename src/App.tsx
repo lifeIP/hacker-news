@@ -11,6 +11,7 @@ import Header from './components/Header/Header';
 import Center from './components/Center/Center';
 import MainPage from './pages/MainPage/MainPage';
 import NewsPage from './pages/NewsPage/NewsPage';
+import MyFooter from './components/Footer/MyFooter';
 
 
 
@@ -25,6 +26,7 @@ const App = (() => {
                         <Route path="/news" element={<NewsPage />} />
                     </Routes>
                 </Center>
+                <MyFooter/>
             </BrowserRouter>
         </Box>
     );
