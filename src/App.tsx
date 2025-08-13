@@ -6,8 +6,6 @@ import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 
 import { Box } from '@mui/material';
 
-import { observer } from 'mobx-react';
-import userStore from './store/app_store';
 
 import Header from './components/Header/Header';
 import Center from './components/Center/Center';
@@ -17,19 +15,19 @@ import NewsPage from './pages/NewsPage/NewsPage';
 
 
 const App = (() => {
-  return (
-    <Box>
-      <BrowserRouter>
-        <Header/>
-        <Center>
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/news" element={<NewsPage />} />
-          </Routes>
-        </Center>
-      </BrowserRouter>
-    </Box>
-  );
+    return (
+        <Box>
+            <BrowserRouter>
+                <Header />
+                <Center>
+                    <Routes>
+                        <Route path="/" element={<MainPage />} />
+                        <Route path="/news" element={<NewsPage />} />
+                    </Routes>
+                </Center>
+            </BrowserRouter>
+        </Box>
+    );
 });
 
 export default App;

@@ -4,11 +4,9 @@ import Rating from '@mui/material/Rating';
 import { useNavigate } from 'react-router-dom';
 
 import { observer } from 'mobx-react';
-import appStore from '../../store/app_store';
 import newsStore from '../../store/news_store';
 import axios from 'axios';
 import settings from "../../settings.json"
-import news_store from '../../store/news_store';
 
 // Интерфейс новостей
 interface NewsItemProps {
@@ -90,9 +88,7 @@ function NewsCard({
                 <CardActionArea
                     disabled={goToPage ? false : true}
                     onClick={() => {
-                        appStore.goToPage(1);
                         newsStore.setCurrentId(newsId);
-                        // console.log(news_store.currentId);
                         navigate("/news");
                     }}
                 >

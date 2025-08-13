@@ -1,20 +1,42 @@
 import * as React from 'react';
 import NewsCard from '../../components/NewsCard/NewsCard';
-import { Button, List, ListItem, ListItemButton, Typography } from '@mui/material';
+import { Box, Button, List, ListItem, ListItemButton, Typography } from '@mui/material';
 
 import { observer } from 'mobx-react';
-import appStore from '../../store/app_store';
 import news_store from '../../store/news_store';
+import CommentMain from '../../components/Comment/CommentMain';
+import axios from 'axios';
 
+import settings from "../../settings.json"
 
 function NewsPage() {
+    const [news, setNews] = React.useState<number[]>([]);
+
+    async function getInfo(id: number) {
+
+        try {
+            const res = await axios.get(`${settings.server.addr}${settings.server.item}${id}${settings.server.addr_end}`);
+            if (res.status === 200 || res.status === 201) {
+                console.log(res.data);
+                setNews(res.data.kids);
+            } else {
+            }
+        } catch (err) {
+            console.error(err);
+
+        }
+    }
+
+    React.useEffect(()=>{
+        getInfo(news_store.currentId);
+        console.log(news);
+    }, []);
     
     return (<>
         <List disablePadding>
             <NewsCard
                 newsId={news_store.currentId}
                 goToPage={false}
-                
             />
             <ListItem>
                 <Button variant="contained" fullWidth>
@@ -26,6 +48,15 @@ function NewsPage() {
                     Комментарии:
                 </Typography>
             </ListItem>
+            {news?.map((item: number)=>(
+                <ListItem>
+                    <Box sx={{
+                        width: "50vw"
+                    }}>
+                        <CommentMain id={item} parent_name={undefined}/>
+                    </Box>
+                </ListItem>
+            ))}
         </List>
     </>);
 }
