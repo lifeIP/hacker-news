@@ -45,8 +45,9 @@ function NewsCard({
 
         try {
             const res = await axios.get(`${settings.server.addr}${settings.server.item}${id}${settings.server.addr_end}`);
-
+            console.log(`${settings.server.addr}${settings.server.item}${id}${settings.server.addr_end}`);
             if (res.status === 200 || res.status === 201) {
+                console.log(res.data);
                 setTitle(res.data.title);
                 setBy(res.data.by);
                 setScore(res.data.score);
@@ -56,7 +57,7 @@ function NewsCard({
             }
         } catch (err) {
             console.error(err);
-            throw err;
+            navigate("/");
         }
     }
 

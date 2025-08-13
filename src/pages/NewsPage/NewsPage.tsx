@@ -14,6 +14,7 @@ function NewsPage() {
             <NewsCard
                 newsId={news_store.currentId}
                 goToPage={false}
+                
             />
             <ListItem>
                 <Button variant="contained" fullWidth>
