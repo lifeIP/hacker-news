@@ -57,6 +57,8 @@ function NewsPage() {
                     Комментарии:
                 </Typography>
             </ListItem>
+            {news?.length > 0? (
+            <>
             {news?.map((item: number)=>(
                 <ListItem>
                     <Box sx={{
@@ -66,6 +68,15 @@ function NewsPage() {
                     </Box>
                 </ListItem>
             ))}
+            </>
+            ):(<Box sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "50px",
+                marginBottom: "50px"
+            }}>
+                <Typography variant='h3' color='gray'>Пусто</Typography>
+            </Box>)}
         </List>
     </>);
 }
